@@ -6,16 +6,12 @@ function savedEventsReducer(state, { type, payload }) {
   switch (type) {
     case "push":
       return [...state, payload];
-      break;
     case "update":
       return state.map((evt) => (evt.id === payload.id ? payload : evt));
-      break;
     case "delete":
       return state.filter((evt) => evt.id !== payload.id);
-      break;
     default:
       throw new Error();
-      break;
   }
 }
 function initEvents() {
