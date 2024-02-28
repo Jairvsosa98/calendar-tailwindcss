@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useReducer, useState } from "react";
 import GlobalContext from "./GlobalContext";
 import dayjs from "dayjs";
+import { convertTimeAndSendNotification } from "../utils/util";
 
 function savedEventsReducer(state, { type, payload }) {
   switch (type) {
@@ -20,6 +21,12 @@ function initEvents() {
   return parsedEvents;
 }
 
+function currentEventsPerExpire() {
+  const storageEvents = localStorage.getItem("savedEvents");
+  const parsedEvents = storageEvents ? JSON.parse(storageEvents) : [];
+  convertTimeAndSendNotification(parsedEvents)
+}
+
 export default function ContextWrapper(props) {
   const [monthIndex, setMonthIndex] = useState(dayjs().month());
   const [smallCalendarMonth, setSmallCalendarMonth] = useState(null);
@@ -30,7 +37,8 @@ export default function ContextWrapper(props) {
   const [savedEvents, dispatchCallEvent] = useReducer(
     savedEventsReducer,
     [],
-    initEvents
+    initEvents,
+    currentEventsPerExpire
   );
 
   const filteredEvents = useMemo(() => {
@@ -68,6 +76,10 @@ export default function ContextWrapper(props) {
       setSelectedEvent(null);
     }
   }, [showEventModal]);
+
+  useEffect(() => {
+    currentEventsPerExpire();
+  }, [savedEvents]);
 
   function updateLabels(label) {
     setLabels(labels.map((lbl) => (lbl.label === label.label ? label : lbl)));

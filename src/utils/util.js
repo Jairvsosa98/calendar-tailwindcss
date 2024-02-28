@@ -1,3 +1,5 @@
+import { toast } from "react-toastify";
+
 const dayjs = require("dayjs");
 
 export function getMonth(month = dayjs().month()) {
@@ -12,4 +14,19 @@ export function getMonth(month = dayjs().month()) {
     });
   });
   return dayArray;
+}
+export function convertTimeAndSendNotification(parsedEvents) {
+  parsedEvents.forEach((element) => {
+    if (dayjs(element.day).format("DD-MM-YY") === dayjs().format("DD-MM-YY")) {
+      const [hour, minute] = element.time.split(":").map(Number); // Dividir la cadena y convertir a números
+      const horaDayjs = dayjs().set("hour", hour).set("minute", minute);
+      const eventTime = dayjs(horaDayjs, "HH:mm");
+      const hoursUntilEvent = eventTime.diff(dayjs(), "hour");
+      const eventStartsIn =
+        hoursUntilEvent > 0
+          ? `El evento ${element.title} comienza en ${hoursUntilEvent} horas en la ciudad ${element.city}`
+          : `El evento ${element.title} ha comenzado`;
+      toast.info(eventStartsIn);
+    }
+  });
 }

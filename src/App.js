@@ -7,6 +7,9 @@ import Month from "./components/Month.js";
 import GlobalContext from "./context/GlobalContext.js";
 import EventModal from "./components/EventModal.js";
 
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from "react-toastify";
+
 function App() {
   const [currentMonth, setCurrentMonth] = useState(getMonth());
   const { monthIndex, showEventModal } = useContext(GlobalContext);
@@ -24,6 +27,7 @@ function App() {
           <Month month={currentMonth} />
         </div>
       </div>
+      <ToastContainer />
     </React.Fragment>
   );
 }
