@@ -1,4 +1,4 @@
-import { toast } from "react-toastify";
+import {Slide, toast } from "react-toastify";
 
 const dayjs = require("dayjs");
 
@@ -24,9 +24,14 @@ export function convertTimeAndSendNotification(parsedEvents) {
       const hoursUntilEvent = eventTime.diff(dayjs(), "hour");
       const eventStartsIn =
         hoursUntilEvent > 0
-          ? `El evento ${element.title} comienza en ${hoursUntilEvent} horas en la ciudad ${element.city}`
-          : `El evento ${element.title} ha comenzado`;
-      toast.info(eventStartsIn);
+          ? `The Event ${element.title} will start in ${hoursUntilEvent} hours in the city ${element.city}`
+          : `Event ${element.title} has started`;
+      toast.info(eventStartsIn, {
+        position: "top-right",
+        transition: Slide,
+        draggablePercent: "mouse",
+        theme: "colored",
+      });
     }
   });
 }

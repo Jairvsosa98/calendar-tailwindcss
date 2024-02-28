@@ -2,8 +2,12 @@ import React, { useContext, useEffect, useState } from "react";
 import dayjs from "dayjs";
 import GlobalContext from "../context/GlobalContext";
 export default function Day({ day, rowIdx }) {
-  const { setDaySelected, setShowEventModal, setSelectedEvent, filteredEvents } =
-    useContext(GlobalContext);
+  const {
+    setDaySelected,
+    setShowEventModal,
+    setSelectedEvent,
+    filteredEvents,
+  } = useContext(GlobalContext);
   const [dayEvents, setDayEvents] = useState([]);
   useEffect(() => {
     const events = filteredEvents.filter(
@@ -17,12 +21,21 @@ export default function Day({ day, rowIdx }) {
       ? "bg-blue-600 text-white rounded-full w-7"
       : "";
   }
+  function getWeekendDayClass() {
+    return day.format("ddd") === "Sat" || day.format("ddd") === "Sun"
+      ? "font-bold text-red-400"
+      : "";
+  }
 
   return (
     <div className="border border-gray-400 flex flex-col">
       <header className="flex flex-col items-center">
-        {rowIdx === 0 && <p className="text-sm mt-1">{day.format("ddd")}</p>}
-        <p className={`text-sm p-1 my-1 text-center ${getCurrentDayClass()}`}>
+        {rowIdx === 0 && (
+          <p className={`text-sm mt-1 ${getWeekendDayClass()}`}>
+            {day.format("ddd")}
+          </p>
+        )}
+        <p className={`text-sm p-1 my-1 text-center ${getCurrentDayClass()} ${getWeekendDayClass()}`}>
           {day.format("DD")}
         </p>
       </header>
