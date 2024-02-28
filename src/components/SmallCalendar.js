@@ -36,6 +36,9 @@ export default function SmallCalendar() {
       return "";
     }
   }
+  function getWeekendDayClass(day) {
+    return day.format("dd").charAt() === "S" ? "font-bold text-red-400" : "";
+  }
   return (
     <div className="mt-9 ">
       <header className="flex justify-between">
@@ -55,7 +58,10 @@ export default function SmallCalendar() {
       </header>
       <div className="grid grid-cols-7 grid-rows-6">
         {currentMonth[0].map((day, i) => (
-          <span key={i} className="text-small py-1 text-center">
+          <span
+            key={i}
+            className={`text-small py-1 text-center ${getWeekendDayClass(day)}`}
+          >
             {day.format("dd").charAt(0)}
           </span>
         ))}
@@ -68,7 +74,9 @@ export default function SmallCalendar() {
                   setSmallCalendarMonth(currentMonthIdx);
                   setDaySelected(day);
                 }}
-                className={`py-1 w-full ${getDayClass(day)}`}
+                className={`py-1 w-full ${getDayClass(
+                  day
+                )} ${getWeekendDayClass(day)}`}
               >
                 <span className="text-sm">{day.format("D")}</span>
               </button>
