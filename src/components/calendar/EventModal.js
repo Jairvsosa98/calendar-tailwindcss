@@ -1,4 +1,4 @@
-import useEventModal from "../hooks/useEventModal";
+import useEventModal from "../../hooks/useEventModal";
 
 export default function EventModal() {
   const {
