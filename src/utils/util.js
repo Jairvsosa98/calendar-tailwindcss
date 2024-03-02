@@ -35,3 +35,16 @@ export function convertTimeAndSendNotification(parsedEvents) {
     }
   });
 }
+export function getDayClass(day, daySelected) {
+  const format = "DD-MM-YY";
+  const nowDay = dayjs().format(format);
+  const currentDay = day.format(format);
+  const selDay = daySelected && daySelected.format(format);
+  if (nowDay === currentDay) {
+    return "bg-blue-500 rounded-full text-white";
+  } else if (currentDay === selDay) {
+    return "bg-blue-100 rounded-full text-blue-600 font-bold";
+  } else {
+    return "";
+  }
+}

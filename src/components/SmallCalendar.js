@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { getMonth } from "../utils/util";
+import { getDayClass, getMonth } from "../utils/util";
 import dayjs from "dayjs";
 import GlobalContext from "../context/GlobalContext";
 
@@ -22,19 +22,6 @@ export default function SmallCalendar() {
   }
   function handleNextMonth() {
     setCurrentMonthIdx(currentMonthIdx + 1);
-  }
-  function getDayClass(day) {
-    const format = "DD-MM-YY";
-    const nowDay = dayjs().format(format);
-    const currentDay = day.format(format);
-    const selDay = daySelected && daySelected.format(format);
-    if (nowDay === currentDay) {
-      return "bg-blue-500 rounded-full text-white";
-    } else if (currentDay === selDay) {
-      return "bg-blue-100 rounded-full text-blue-600 font-bold";
-    } else {
-      return "";
-    }
   }
   function getWeekendDayClass(day) {
     return day.format("dd").charAt() === "S" ? "font-bold text-red-400" : "";
@@ -75,7 +62,7 @@ export default function SmallCalendar() {
                   setDaySelected(day);
                 }}
                 className={`py-1 w-full ${getDayClass(
-                  day
+                  day,daySelected
                 )} ${getWeekendDayClass(day)}`}
               >
                 <span className="text-sm">{day.format("D")}</span>
